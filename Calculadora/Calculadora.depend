@@ -1,0 +1,43 @@
+# depslib dependency file v1.0
+1554539272 source:/media/danielubunto/Documentos/Universidad/Semestres/09/Arquitectura/SegundoProyecto/Version1/CodeBlocks/Calculadora/main.cpp
+	<iostream>
+	<cstdlib>
+	<string.h>
+	<cstring>
+	<sstream>
+	<time.h>
+	<stdlib.h>
+	<unistd.h>
+	<fstream>
+	<stdlib.h>
+	<bits/stdc++.h>
+
+1554541182 source:/media/danielubunto/Documentos/Universidad/Semestres/09/Arquitectura/SegundoProyecto/Version2/Calculadora/main.cpp
+	<iostream>
+	<cstdlib>
+	<string.h>
+	<cstring>
+	<sstream>
+	<time.h>
+	<stdlib.h>
+	<unistd.h>
+	<fstream>
+	<stdlib.h>
+	<bits/stdc++.h>
+
+1555348083 source:c:\users\gabog\documents\gabo\arqui\progra ensamblador linux\version2\calculadora\main.cpp
+	<iostream>
+	<cstdlib>
+	<string.h>
+	<cstring>
+	<sstream>
+	<time.h>
+	<stdlib.h>
+	<unistd.h>
+	<fstream>
+	<stdlib.h>
+	<bits/stdc++.h>
+	<vector>
+	<string>
+	<iterator>
+
