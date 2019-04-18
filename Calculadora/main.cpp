@@ -15,7 +15,7 @@
 
 using namespace std;
 
-/// Estas son las llamadas de todos los menus
+// Estas son las llamadas de todos los menus
 int decimalABinario(int n, int binarioEntero);
 int binarioADecimal(int n);
 void menuSuma();
@@ -47,9 +47,11 @@ int result = 0;
 double dolar = 0;
 double colon = 0;
 double euro = 0;
+double auxTotal = 0;
+double total = 0;
 //void operacionPotencia();
 
-///----------------------------------------Menu principal------------------------------------------------///
+//----------------------------------------Menu principal------------------------------------------------///
 
 
 void menuPrincipal(){
@@ -107,7 +109,7 @@ void menuCalc(){
 }
 
 
-///----------------------------------------Menus operaciones------------------------------------------------///
+//----------------------------------------Menus operaciones------------------------------------------------///
 
 void menuSuma(){
     char x ='1';
@@ -301,44 +303,7 @@ void menuRaiz(){
     menuCalc();
 }
 
-
-
-void menuTipoCambio(){
-    //system("clear");
-    char opcion = '0';
-    cout << endl << "---------Tipos de Cambio---------"<<endl;
-    cout << endl <<"Seleccione una opcion para continuar: ";
-    cout << endl <<"1. De Colon a Dolar";
-    cout << endl <<"2. De Dolar a Colon";
-    cout << endl <<"3. De Euro a Colon";
-    cout << endl <<"4. De Colon a Euro";
-    cout << endl <<"5. De Dolar a Euro";
-    cout << endl <<"6. De Euro a Dolar";
-    cout << endl <<"7. Salir";
-    cin >>opcion;
-    if (opcion == '1'){
-        colonDolar();
-    }
-    else if(opcion == '2'){
-        dolarColon();
-    }
-    else if(opcion == '3'){
-        euroColon();
-    }
-    else if(opcion == '4'){
-        colonEuro();
-    }
-    else if(opcion == '5'){
-        dolarEuro();
-    }
-    else if(opcion == '6'){
-        euroDolar();
-    }else if(opcion == '7'){
-        menuCalc();
-    }
-}
-
-///------------------------------------Convertir a IEEE desde decimal y viceversa-----------------------------------///
+//------------------------------------Convertir a IEEE desde decimal y viceversa-----------------------------------///
 
 void menuIEEE(){
     char opcion = '0';
@@ -355,8 +320,11 @@ void menuIEEE(){
     else if (opcion == '2'){
         IEEEdecimal();
     }
-    else{
+    else if (opcion == '3'){
         menuCalc();
+    } else{
+        cout << "Opcion incorrecta. " << endl;
+        menuIEEE();
     }
 }
 
@@ -430,8 +398,7 @@ void decimalIEEE(){
         menuIEEE();
 }
 
-int decimalABinario(int n, int binarioEntero)
-{
+int decimalABinario(int n, int binarioEntero){
     // array para los binarios.
     int binaryNum[32];
 
@@ -464,26 +431,21 @@ void IEEEdecimal(){
     cin >> signo;
 
     int exponente = 0;
-    cout << "Digite los siguientes ocho bits: " << endl;
+    cout << "Digite los siguientes ocho bits (ignore 0s a la izquierda): " << endl;
     cin >> exponente;
 
-    int mantisa = 0;
+    string mantisa = "";
     cout << "Digite los 23 bits restantes: " << endl;
     cin >> mantisa;
 
     exponente = binarioADecimal(exponente);
     exponente = exponente - 127;
 
-    int decimales[23];
-    for(int i = 0; i < 23; i++){
-
-        decimales[i] = mantisa%10;
-        mantisa = mantisa/10;
-    }
-
-    double resultadoMantisa = 0;
-    for(int k = 1; k < 24; k++){
-        resultadoMantisa = decimales[k-1]*pow(2, -k);
+    double resultadoMantisa = 0.0;
+    int expNegativo = -1;
+    for(int j = 0; j < 23; j++){
+        resultadoMantisa = resultadoMantisa + (int(mantisa[j] - 48) * pow(2, expNegativo));
+        expNegativo = expNegativo - 1;
     }
 
     signo = pow(-1, signo);
@@ -503,7 +465,7 @@ int binarioADecimal(int n){
     int num = n;
     int valorDecimal = 0;
 
-    // Initializing base value to 1, i.e 2^0
+    // Se inicializa el valor de la base en 1 ya que 2^0 es 1.
     int base = 1;
 
     int temp = num;
@@ -519,7 +481,44 @@ int binarioADecimal(int n){
     return valorDecimal;
 }
 
-///----------------------------------Operaciones tipo de cambio-----------------------------------------------------///
+
+//----------------------------------Operaciones tipo de cambio-----------------------------------------------------///
+void menuTipoCambio(){
+    //system("clear");
+    char opcion = '0';
+    cout << endl << "---------Tipos de Cambio---------"<<endl;
+    cout << endl <<"Seleccione una opcion para continuar: ";
+    cout << endl <<"1. De Colon a Dolar";
+    cout << endl <<"2. De Dolar a Colon";
+    cout << endl <<"3. De Euro a Colon";
+    cout << endl <<"4. De Colon a Euro";
+    cout << endl <<"5. De Dolar a Euro";
+    cout << endl <<"6. De Euro a Dolar";
+    cout << endl <<"7. Regresar al menu principal";
+    cin >>opcion;
+    if (opcion == '1'){
+        colonDolar();
+    }
+    else if(opcion == '2'){
+        dolarColon();
+    }
+    else if(opcion == '3'){
+        euroColon();
+    }
+    else if(opcion == '4'){
+        colonEuro();
+    }
+    else if(opcion == '5'){
+        dolarEuro();
+    }
+    else if(opcion == '6'){
+        euroDolar();
+    }else if(opcion == '7'){
+        menuCalc();
+    }
+}
+
+
 void actualizarValores(){
     dolar = 0.0;
     colon = 0.0;
@@ -533,7 +532,7 @@ void actualizarValores(){
         archivoC.open("precioColon.txt", ios::in);
     }
     while(getline(archivoC, lineaC)){
-        cout << endl <<"Precio del Colon: ₡";
+        cout << endl <<"Precio del Colon: ";
         cout << lineaC << "\n";
         stringstream x(lineaC);
         x>>colon;
@@ -547,7 +546,7 @@ void actualizarValores(){
         archivoD.open("precioDolar.txt", ios::in);
     }
     while(getline(archivoD, lineaD)){
-        cout << endl <<"Precio del Dolar: $";
+        cout << endl <<"Precio del Dolar: ";
         cout << lineaD << "\n";
        stringstream x(lineaD);
         x>>dolar;
@@ -561,7 +560,7 @@ void actualizarValores(){
         archivoE.open("precioEuro.txt", ios::in);
     }
     while(getline(archivoE, lineaE)){
-        cout << endl <<"Precio del Euro: €";
+        cout << endl <<"Precio del Euro: ";
         cout << lineaE << "\n";
         stringstream x(lineaE);
         x>>euro;
@@ -569,15 +568,27 @@ void actualizarValores(){
 
 }
 
+void limpiarTotal(){
+    total = 0.0;
+
+}
 
 void colonDolar(){
     actualizarValores();
     cout << endl <<"Digite la cantidad de Colones que desea convertir a Dolares: ";
     double cantidad = 0.0;
     cin >> cantidad;
-    double total = 0.0;
+    limpiarTotal();
     total = cantidad / dolar;
-    cout << endl <<"La cantidad de Dolares es: $" ;
+    double auxTotal  ;
+
+    //division ASM
+    __asm__ ( "fld %2;"
+              "fld %1;"
+              "fdivp;"
+              "fstp %0;" : "=m" (auxTotal) : "m" (cantidad), "m" (dolar) ) ;
+
+    cout << endl <<"La cantidad de Dolares es: " ;
     cout << total ;
     menuTipoCambio();
 }
@@ -588,9 +599,16 @@ void dolarColon(){
     cout << endl <<"Digite la cantidad de Dolares que desea convertir a Colones: ";
     double cantidad = 0.0;
     cin >> cantidad;
-    double total = 0.0;
+    limpiarTotal();
     total = cantidad * dolar;
-    cout << endl <<"La cantidad de Colones es: ‎₡" ;
+    double auxTotal;
+    //Multi ASM
+    __asm__ ( "fld %1;"
+                  "fld %2;"
+                  "fmulp;"
+                  "fstp %0;" : "=m" (auxTotal) : "m" (cantidad), "m" (dolar) ) ;
+
+    cout << endl <<"La cantidad de Colones es: " ;
     cout << total ;
     menuTipoCambio();
 }
@@ -601,9 +619,19 @@ void euroColon(){
     cout << endl <<"Digite la cantidad de Euros que desea convertir a Colones: ";
     double cantidad = 0.0;
     cin >> cantidad;
-    double total = 0.0;
+    limpiarTotal();
     total = cantidad * euro;
-    cout << endl <<"La cantidad de Colones es: ₡" ;
+    double auxTotal ;
+
+    //Multi ASM
+    __asm__ ( "fld %1;"
+                  "fld %2;"
+                  "fmulp;"
+                  "fstp %0;" : "=m" (auxTotal) : "m" (cantidad), "m" (euro) ) ;
+
+
+
+    cout << endl <<"La cantidad de Colones es: " ;
     cout << total ;
     menuTipoCambio();
 }
@@ -614,9 +642,17 @@ void colonEuro(){
     cout << endl <<"Digite la cantidad de Colones que desea convertir a Euros: ";
     double cantidad = 0.0;
     cin >> cantidad;
-    double total = 0.0;
+    limpiarTotal();
     total = cantidad / euro;
-    cout << endl <<"La cantidad de Euros es: €" ;
+    double auxTotal;
+
+    //division ASM
+    __asm__ ( "fld %2;"
+              "fld %1;"
+              "fdivp;"
+              "fstp %0;" : "=m" (auxTotal) : "m" (cantidad), "m" (euro) ) ;
+
+    cout << endl <<"La cantidad de Euros es: " ;
     cout << total ;
     menuTipoCambio();
 }
@@ -627,13 +663,25 @@ void dolarEuro(){
     cout << endl <<"Digite la cantidad de Dolares que desea convertir a Euros: ";
     double cantidad = 0.0;
     cin >> cantidad;
-    double total = 0.0;
+    limpiarTotal();
     total = cantidad * dolar;
-
     total = total / euro;
-    cout << endl <<"La cantidad de Euros es: €" ;
-    cout << total ;
+    double auxTotal;
 
+    //Multi ASM
+    __asm__ ( "fld %1;"
+                  "fld %2;"
+                  "fmulp;"
+                  "fstp %0;" : "=m" (auxTotal) : "m" (cantidad), "m" (dolar) ) ;
+
+    //division ASM
+   __asm__ ( "fld %2;"
+              "fld %1;"
+              "fdivp;"
+              "fstp %0;" : "=m" (auxTotal) : "m" (auxTotal), "m" (euro) ) ;
+
+    cout << endl <<"La cantidad de Euros es: " ;
+    cout << total ;
     menuTipoCambio();
 }
 
@@ -642,11 +690,24 @@ void euroDolar(){
     cout << endl <<"Digite la cantidad de Euros que desea convertir a Dolares: ";
     double cantidad = 0.0;
     cin >> cantidad;
-    double total = 0.0;
+    limpiarTotal();
     total = cantidad * euro;
-
     total = total / dolar;
-    cout << endl <<"La cantidad de Dolares es: $" ;
+    double auxTotal;
+
+    //Multi ASM
+    __asm__ ( "fld %1;"
+                  "fld %2;"
+                  "fmulp;"
+                  "fstp %0;" : "=m" (auxTotal) : "m" (cantidad), "m" (euro) ) ;
+
+    //division ASM
+    __asm__ ( "fld %2;"
+              "fld %1;"
+              "fdivp;"
+              "fstp %0;" : "=m" (auxTotal) : "m" (auxTotal), "m" (dolar) ) ;
+
+    cout << endl <<"La cantidad de Dolares es: " ;
     cout << total ;
     menuTipoCambio();
 }

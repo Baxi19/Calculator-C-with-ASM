@@ -1,0 +1,22 @@
+# depslib dependency file v1.0
+1555550396 source:c:\users\baxi\desktop\cal3\calculadora\main.cpp
+	<iostream>
+	<cstdlib>
+	<string.h>
+	<cstring>
+	<sstream>
+	<time.h>
+	<stdlib.h>
+	<unistd.h>
+	<fstream>
+	<stdlib.h>
+	<bits/stdc++.h>
+	<vector>
+	<string>
+	<iterator>
+
+1555550378 source:c:\users\baxi\desktop\cal3\calculadora\example.cpp
+	<iostream>
+	<string>
+	<regex>
+
